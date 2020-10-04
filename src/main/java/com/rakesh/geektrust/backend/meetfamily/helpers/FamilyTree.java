@@ -31,8 +31,9 @@ public class FamilyTree {
 			Member child = createChild(mother,childName, gender);
 			mother.updateChildren(child);
 			addToIndex(child);
+			System.out.println("CHILD_ADDITION_SUCCEEDED");
 		} else {
-			System.out.println("PERSON NOT FOUND");
+			System.out.println("PERSON_NOT_FOUND");
 		}
 	}
 	
@@ -66,7 +67,7 @@ public class FamilyTree {
 		  System.out.println(printMsg);
 	
 		} else {
-			System.out.println("PERSON NOT FOUND");
+			System.out.println("PERSON_NOT_FOUND");
 		}
 		
 	}
