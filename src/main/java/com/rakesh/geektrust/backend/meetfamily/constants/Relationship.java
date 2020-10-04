@@ -31,9 +31,11 @@ public enum Relationship {
 	PATERNAL_AUNT("Paternal-Aunt") {
 		@Override
 		public List<Member> findRelatives(Member familyMember) {
-			return familyMember.getChildren()
-					.stream().filter((member) -> member.getGender() == Gender.FEMALE)
-					.collect(Collectors.toList());
+			Member father = familyMember.getFather();
+		    return Relationship.SIBLINGS.findRelatives(father)
+		    							.stream()
+		    							.filter((member) -> member.getGender() == Gender.FEMALE)
+		    							.collect(Collectors.toList());
 		}
 	},
 	MATERNAL_UNCLE("Maternal-Uncle") {

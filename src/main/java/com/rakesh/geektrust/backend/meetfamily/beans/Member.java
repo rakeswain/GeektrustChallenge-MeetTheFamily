@@ -76,6 +76,7 @@ public class Member {
 	}
 	
 	public Member getMother() {
+		// TODO add optional
 		if (this.parent != null)
 			return this.parent.gender == Gender.FEMALE ? this.parent : this.parent.spouse;
 		return null;
@@ -87,8 +88,13 @@ public class Member {
 				 .filter((member) -> !member.getName().equals(this.getName())).collect(Collectors.toList());
 	}
 	
-	public void updateChildren(Member child) {
-		this.children.add(child); 
+	public boolean updateChildren(Member child) {
+		if (this.gender == Gender.FEMALE) {
+			this.children.add(child); 
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

@@ -62,7 +62,7 @@ public class FamilyTreeInitializer {
 		tree.addSpouse(tree.getMemberByName("Vyas"), krpi);
 		tree.addChild("Krpi", "Kriya",Gender.MALE);
 		tree.addChild("Krpi", "Krithi",Gender.FEMALE);
-
+		
 		tree.addChild("Satya", "Atya",Gender.FEMALE);
 			
 		return  tree;

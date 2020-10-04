@@ -24,17 +24,22 @@ public class FamilyTree {
 		addToIndex(queen);
 	}
 	
-	public boolean addChild(String motherName, String childName, Gender gender) {
-	
+	public String addChild(String motherName, String childName, Gender gender) {
+		String status = "";
 		if (this.containsChild(motherName)) {
 			Member mother = this.getMemberByName(motherName);
 			Member child = createChild(mother,childName, gender);
-			mother.updateChildren(child);
-			addToIndex(child);
-			return true;
+			if (mother.updateChildren(child)) {
+				addToIndex(child);
+				status = "CHILD_ADDITION_SUCCEEDED";
+			} else {
+				status = "CHILD_ADDITION_FAILED";
+			}
+			
 		} else {
-			return false;
+			status = "PERSON_NOT_FOUND";
 		}
+		return status;
 	}
 	
 	public Member createChild(Member parent,String childName, Gender gender) {
