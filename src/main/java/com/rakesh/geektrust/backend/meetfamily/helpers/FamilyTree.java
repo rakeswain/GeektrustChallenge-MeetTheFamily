@@ -24,16 +24,16 @@ public class FamilyTree {
 		addToIndex(queen);
 	}
 	
-	public void addChild(String motherName, String childName, Gender gender) {
+	public boolean addChild(String motherName, String childName, Gender gender) {
 	
 		if (this.containsChild(motherName)) {
 			Member mother = this.getMemberByName(motherName);
 			Member child = createChild(mother,childName, gender);
 			mother.updateChildren(child);
 			addToIndex(child);
-			System.out.println("CHILD_ADDITION_SUCCEEDED");
+			return true;
 		} else {
-			System.out.println("PERSON_NOT_FOUND");
+			return false;
 		}
 	}
 	
