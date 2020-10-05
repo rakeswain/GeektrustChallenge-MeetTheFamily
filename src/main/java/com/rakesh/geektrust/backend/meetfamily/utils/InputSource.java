@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.rakesh.geektrust.backend.meetfamily.constants.ErrorMessage;
 import com.rakesh.geektrust.backend.meetfamily.constants.Option;
+import com.rakesh.geektrust.backend.meetfamily.exceptions.InvalidInputException;
 
 /**
  * DESCRIPTION - This class is responsible for reading input.
@@ -32,8 +34,12 @@ public class InputSource {
 			String s;
 			while((s = br.readLine()) != null) {
 				List<String> inputLine = Arrays. asList(s.split(" "));
-				inputPairs.add(new Input(inputLine.subList(1, inputLine.size()), Option.valueOf(inputLine.get(0))
+				try {
+					inputPairs.add(new Input(inputLine.subList(1, inputLine.size()), Option.valueOf(inputLine.get(0))
 														  .getCommand()));
+				} catch (IllegalArgumentException e) {
+					throw new InvalidInputException(ErrorMessage.COMMAND_NOT_FOUND +" : "+inputLine.get(0));
+				}
 			}
 		}
 		return inputPairs;

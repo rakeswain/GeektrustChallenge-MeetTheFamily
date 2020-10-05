@@ -5,7 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.rakesh.geektrust.backend.meetfamily.beans.Member;
+import com.rakesh.geektrust.backend.meetfamily.exceptions.InvalidInputException;
 
+/**
+ * This enum class defines all relationships.
+ * 
+ *  @author Rakesh Swain
+ *  @version 0.0.1
+ */
 public enum Relationship {
 
 	SON("Son") {
@@ -22,17 +29,17 @@ public enum Relationship {
 		@Override
 		public List<Member> findRelatives(Member familyMember) {
 			Member father = familyMember.getFather();
-		    return Relationship.SIBLINGS.findRelatives(father)
-		    							.stream()
-		    							.filter((member) -> member.getGender() == Gender.MALE)
-		    							.collect(Collectors.toList());
+			return father == null ? new ArrayList<Member>() :  Relationship.SIBLINGS.findRelatives(father)
+																				   .stream()
+																				   .filter((member) -> member.getGender() == Gender.MALE)
+																				   .collect(Collectors.toList());
 		}
 	},
 	PATERNAL_AUNT("Paternal-Aunt") {
 		@Override
 		public List<Member> findRelatives(Member familyMember) {
 			Member father = familyMember.getFather();
-		    return Relationship.SIBLINGS.findRelatives(father)
+			return father == null ? new ArrayList<Member>() : Relationship.SIBLINGS.findRelatives(father)
 		    							.stream()
 		    							.filter((member) -> member.getGender() == Gender.FEMALE)
 		    							.collect(Collectors.toList());
@@ -42,7 +49,7 @@ public enum Relationship {
 		@Override
 		public List<Member> findRelatives(Member familyMember) {
 			Member mother = familyMember.getMother();
-			return Relationship.SIBLINGS.findRelatives(mother)
+			return mother == null ? new ArrayList<Member>() : Relationship.SIBLINGS.findRelatives(mother)
 			    			 .stream()
 			    		     .filter((member) -> member.getGender() == Gender.MALE)
 			    			 .collect(Collectors.toList());
@@ -52,7 +59,7 @@ public enum Relationship {
 		@Override
 		public List<Member> findRelatives(Member familyMember) {
 			  Member mother = familyMember.getMother();
-			  return Relationship.SIBLINGS.findRelatives(mother)
+			  return mother == null ? new ArrayList<Member>() : Relationship.SIBLINGS.findRelatives(mother)
 			    			 .stream()
 			    		     .filter((member) -> member.getGender() == Gender.FEMALE)
 			    			 .collect(Collectors.toList());
@@ -111,13 +118,10 @@ public enum Relationship {
 	SIBLINGS("Siblings") {
 		@Override
 		public List<Member> findRelatives(Member familyMember) {
-			if (familyMember.getMother() != null) {
-				return familyMember.getMother().getChildren()
-						.stream().filter((member) -> !(member.getName().equals(familyMember.getName())))
-						.collect(Collectors.toList());
-			} else {
-				return new ArrayList<Member>();
-			}
+			Member mother = familyMember.getMother();
+			return mother == null ? new ArrayList<Member>() : mother.getChildren()
+					.stream().filter((member) -> !(member.getName().equals(familyMember.getName())))
+					.collect(Collectors.toList());
 		}
 	};
 	
@@ -133,8 +137,14 @@ public enum Relationship {
 				return value;
 			}
 		}
-		throw new RuntimeException();
+		throw new InvalidInputException(ErrorMessage.RELATIONSHI_NOT_DEFINED+" : "+relation);
 	}
 	
+	/**
+	 * This is the abstract method that which is implemented in each enum to get relatives of that perticular relation.
+	 * 
+	 * @param member - Member of which relatives are to be searched
+	 * @return List<Member> - List of relatives
+	 */
 	public abstract List<Member> findRelatives(Member member);
 }

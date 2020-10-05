@@ -6,6 +6,12 @@ import java.util.stream.Collectors;
 
 import com.rakesh.geektrust.backend.meetfamily.constants.Gender;
 
+/**
+ * Descriptor - This is the Member class reprsenting a member of the family. It follows builder pattern.
+ *  
+ * @author Rakesh Swain
+ * @version 0.0.1
+ */
 public class Member {
 	
 	private final String name;
@@ -76,10 +82,11 @@ public class Member {
 	}
 	
 	public Member getMother() {
-		// TODO add optional
-		if (this.parent != null)
+		if (this.parent != null) {
 			return this.parent.gender == Gender.FEMALE ? this.parent : this.parent.spouse;
-		return null;
+		} else {
+			return null;
+		}
 	}
 	
 	public List<Member> getSiblings() {
