@@ -14,7 +14,7 @@ $ git clone https://github.com/rakeswain/GeektrustChallenge-MeetTheFamily.git
 ```
 2. Go to the root directory and install dependencies
 ```
-$ mvn clean  install -DskipTests
+$ mvn clean install -DskipTests
 ```
 3. Go to the root directory and run the program
 ```
